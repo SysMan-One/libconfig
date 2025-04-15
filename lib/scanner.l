@@ -19,6 +19,9 @@
    License along with this library; if not, see
    <http://www.gnu.org/licenses/>.
    ----------------------------------------------------------------------------
+
+	MODIFICATION HISTORY:
+		15-APR-2025	RRL	Added '!' as marker of comment
 */
 
 %option nounistd
@@ -70,7 +73,7 @@ include_open ^[ \t]*@include[ \t]+\"
 
 %%
 
-(#|\/\/)                     { BEGIN SINGLE_LINE_COMMENT; }
+(!|#|\/\/)                   { BEGIN SINGLE_LINE_COMMENT; }
 <SINGLE_LINE_COMMENT>\n      { BEGIN INITIAL; }
 <SINGLE_LINE_COMMENT>.       { /* ignore */ }
 

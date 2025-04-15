@@ -66,6 +66,8 @@ extern "C" {
 #define CONFIG_OPTION_ALLOW_SCIENTIFIC_NOTATION       0x20
 #define CONFIG_OPTION_FSYNC                           0x40
 #define CONFIG_OPTION_ALLOW_OVERRIDES                 0x80
+#define CONFIG_OPTION_IGNORECASE                      0x100	/* @RRL: Set "ignore case" mode in searching of keywords */
+
 
 #define CONFIG_TRUE  (1)
 #define CONFIG_FALSE (0)
@@ -106,9 +108,9 @@ typedef struct config_list_t
 } config_list_t;
 
 typedef const char ** (*config_include_fn_t)(struct config_t *,
-                                             const char *,
-                                             const char *,
-                                             const char **);
+					     const char *,
+					     const char *,
+					     const char **);
 
 typedef void (*config_fatal_error_fn_t)(const char *);
 
@@ -134,36 +136,36 @@ extern LIBCONFIG_API int config_read(config_t *config, FILE *stream);
 extern LIBCONFIG_API void config_write(const config_t *config, FILE *stream);
 
 extern LIBCONFIG_API void config_set_default_format(config_t *config,
-                                                    unsigned short format);
+						    unsigned short format);
 
 extern LIBCONFIG_API void config_set_options(config_t *config, int options);
 extern LIBCONFIG_API int config_get_options(const config_t *config);
 
 extern LIBCONFIG_API void config_set_option(config_t *config, int option,
-                                            int flag);
+					    int flag);
 extern LIBCONFIG_API int config_get_option(const config_t *config, int option);
 
 extern LIBCONFIG_API int config_read_string(config_t *config, const char *str);
 
 extern LIBCONFIG_API int config_read_file(config_t *config,
-                                          const char *filename);
+					  const char *filename);
 extern LIBCONFIG_API int config_write_file(config_t *config,
-                                           const char *filename);
+					   const char *filename);
 
 extern LIBCONFIG_API void config_set_destructor(config_t *config,
-                                                void (*destructor)(void *));
+						void (*destructor)(void *));
 extern LIBCONFIG_API void config_set_include_dir(config_t *config,
-                                                 const char *include_dir);
+						 const char *include_dir);
 extern LIBCONFIG_API void config_set_include_func(config_t *config,
-                                                  config_include_fn_t func);
+						  config_include_fn_t func);
 
 extern LIBCONFIG_API void config_set_float_precision(config_t *config,
-                                                     unsigned short digits);
+						     unsigned short digits);
 extern LIBCONFIG_API unsigned short config_get_float_precision(
   const config_t *config);
 
 extern LIBCONFIG_API void config_set_tab_width(config_t *config,
-                                               unsigned short width);
+					       unsigned short width);
 extern LIBCONFIG_API unsigned short config_get_tab_width(
   const config_t *config);
 
@@ -201,18 +203,18 @@ extern LIBCONFIG_API int config_setting_lookup_string(
   const config_setting_t *setting, const char *name, const char **value);
 
 extern LIBCONFIG_API int config_setting_set_int(config_setting_t *setting,
-                                                int value);
+						int value);
 extern LIBCONFIG_API int config_setting_set_int64(config_setting_t *setting,
-                                                  long long value);
+						  long long value);
 extern LIBCONFIG_API int config_setting_set_float(config_setting_t *setting,
-                                                  double value);
+						  double value);
 extern LIBCONFIG_API int config_setting_set_bool(config_setting_t *setting,
-                                                 int value);
+						 int value);
 extern LIBCONFIG_API int config_setting_set_string(config_setting_t *setting,
-                                                   const char *value);
+						   const char *value);
 
 extern LIBCONFIG_API int config_setting_set_format(config_setting_t *setting,
-                                                   unsigned short format);
+						   unsigned short format);
 extern LIBCONFIG_API unsigned short config_setting_get_format(
   const config_setting_t *setting);
 
@@ -296,43 +298,43 @@ extern LIBCONFIG_API config_setting_t *config_setting_get_member(
 extern LIBCONFIG_API config_setting_t *config_setting_add(
   config_setting_t *parent, const char *name, int type);
 extern LIBCONFIG_API int config_setting_remove(config_setting_t *parent,
-                                               const char *name);
+					       const char *name);
 extern LIBCONFIG_API int config_setting_remove_elem(config_setting_t *parent,
-                                                    unsigned int idx);
+						    unsigned int idx);
 extern LIBCONFIG_API void config_setting_set_hook(config_setting_t *setting,
-                                                  void *hook);
+						  void *hook);
 
 #define config_setting_get_hook(S) ((S)->hook)
 
 extern LIBCONFIG_API config_setting_t *config_lookup(const config_t *config,
-                                                     const char *path);
+						     const char *path);
 extern LIBCONFIG_API const config_setting_t *config_lookup_const(
   const config_t *config, const char *path);
-  
+
 extern LIBCONFIG_API config_setting_t *config_setting_lookup(
   const config_setting_t *setting, const char *path);
 extern LIBCONFIG_API const config_setting_t *config_setting_lookup_const(
   const config_setting_t *setting, const char *path);
 
 extern LIBCONFIG_API int config_lookup_int(const config_t *config,
-                                           const char *path, int *value);
+					   const char *path, int *value);
 extern LIBCONFIG_API int config_lookup_int64(const config_t *config,
-                                             const char *path,
-                                             long long *value);
+					     const char *path,
+					     long long *value);
 extern LIBCONFIG_API int config_lookup_float(const config_t *config,
-                                             const char *path, double *value);
+					     const char *path, double *value);
 extern LIBCONFIG_API int config_lookup_bool(const config_t *config,
-                                            const char *path, int *value);
+					    const char *path, int *value);
 extern LIBCONFIG_API int config_lookup_string(const config_t *config,
-                                              const char *path,
-                                              const char **value);
+					      const char *path,
+					      const char **value);
 
 #define /* config_setting_t * */ config_root_setting( \
   /* const config_t * */ C)                           \
   ((C)->root)
 
 #define  /* void */ config_set_default_format(/* config_t * */ C,       \
-                                              /* unsigned short */ F)   \
+					      /* unsigned short */ F)   \
   (C)->default_format = (F)
 
 #define /* unsigned short */ config_get_default_format(/* config_t * */ C) \
